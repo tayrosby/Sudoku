@@ -20,12 +20,13 @@ namespace Sudoku.Controllers
         [HttpPost]
         public ActionResult Login(UserModel model)
         {
+
             SecurityService service = new SecurityService();
             bool pass = service.Authenticate(model);
 
             if (pass == true)
             {
-                return View("LoginPassed", model);
+                return View("GameBoard");
             }
             else
             {

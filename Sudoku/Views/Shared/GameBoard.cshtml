@@ -1,0 +1,39 @@
+﻿@model Sudoku.Models.FullBoard
+
+@{
+    ViewBag.Title = "Game Board";
+}
+
+<div>
+    @using (Html.BeginForm("GameBoard", "GameBoard", FormMethod.Post))
+    {
+        int boardSize = 9;
+        int blockSize = 3;
+        var tbConfig = new { maxlength = "1", size = "3" };
+
+        @Html.HiddenFor(m => m.BoardNumber)
+        @:<br />
+
+        for (int x = 0; x < boardSize; x++)
+        {
+            if ((x != 0) && (x % blockSize == 0))
+            {
+                @:<br />
+            }
+
+            for (int y = 0; y < boardSize; y++)
+            {
+                if ((y != 0) && (y % blockSize == 0))
+                {
+                    @:&nbsp;
+                }
+
+                @Html.TextBoxFor(m => m.GameBoard[x * boardSize + y], tbConfig)
+                @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Row)
+                @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Column)
+                @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].blockNumber)
+            }
+            <br />
+        }
+    }
+</div>
