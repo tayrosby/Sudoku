@@ -4,6 +4,34 @@
     ViewBag.Title = "Game Board";
 }
 
+<script>
+    var mSeconds = 0;
+    var watchStoped = true;
+    function startOrStopWatch() {
+        watchStoped = !watchStoped;
+        performClock();
+    }
+    function performClock() {
+        if (watchStoped) return;
+        mSeconds++;
+        document.getElementById("label1").innerHTML = "00:00:" + mSeconds;
+
+
+        setTimeout("performClock()", 100);
+    }
+</script>
+<br>
+<div id="label1"></div>
+<br>
+<input type="button" value="Start/Stop" onclick="startOrStopWatch()" />
+
+<input type="button" value="Reset Game" />
+
+<input type="button" value="Save Game" />
+
+<input type="button" value="Save Score" />
+
+<input type="button" value="Post Score" />
 <div>
     @using (Html.BeginForm("GameBoard", "GameBoard", FormMethod.Post))
     {
@@ -13,6 +41,7 @@
 
         @Html.HiddenFor(m => m.BoardNumber)
         @:<br />
+
 
         for (int x = 0; x < boardSize; x++)
         {
@@ -37,3 +66,4 @@
         }
     }
 </div>
+
