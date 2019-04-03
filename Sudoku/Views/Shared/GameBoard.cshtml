@@ -16,12 +16,13 @@
 <input type="button" value="Save Score" />
 
 <input type="button" value="Post Score" />
-<div>
+
+
     @using (Html.BeginForm("GameBoard", "GameBoard", FormMethod.Post, new { name = "updateForm", autocomplete = "off" }))
     {
         int boardSize = 9;
         int blockSize = 3;
-        var tbConfig = new { maxlength = "1", size = "3", autocomplete = "off", @onkeyup = "SubmitValidCellValue(event)" };
+        var tbConfig = new { maxlength = "1", size = "1", autocomplete = "off", @onkeyup = "SubmitValidCellValue(event)" };
 
         @Html.HiddenFor(m => m.BoardNumber)
         @:<br />
@@ -45,12 +46,11 @@
                 @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Row)
                 @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Column)
                 @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].blockNumber)
-                
+
             }
             <br />
         }
     }
-</div>
 
 <script>
     function SubmitValidCellValue(event) {
@@ -77,4 +77,3 @@
         setTimeout("performClock()", 100);
     }
 </script>
-

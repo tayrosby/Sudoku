@@ -26,7 +26,7 @@ namespace Sudoku.Controllers
 
             if (pass == true)
             {
-                return View("GameBoard");
+                return RedirectToRoute(new { controller = "GameBoard", action = "index" });
             }
             else
             {
