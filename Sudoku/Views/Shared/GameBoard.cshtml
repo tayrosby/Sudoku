@@ -4,22 +4,6 @@
     ViewBag.Title = "Game Board";
 }
 
-<script>
-    var mSeconds = 0;
-    var watchStoped = true;
-    function startOrStopWatch() {
-        watchStoped = !watchStoped;
-        performClock();
-    }
-    function performClock() {
-        if (watchStoped) return;
-        mSeconds++;
-        document.getElementById("label1").innerHTML = "00:00:" + mSeconds;
-
-
-        setTimeout("performClock()", 100);
-    }
-</script>
 <br>
 <div id="label1"></div>
 <br>
@@ -33,11 +17,11 @@
 
 <input type="button" value="Post Score" />
 <div>
-    @using (Html.BeginForm("GameBoard", "GameBoard", FormMethod.Post))
+    @using (Html.BeginForm("GameBoard", "GameBoard", FormMethod.Post, new { name = "updateForm", autocomplete = "off" }))
     {
         int boardSize = 9;
         int blockSize = 3;
-        var tbConfig = new { maxlength = "1", size = "3" };
+        var tbConfig = new { maxlength = "1", size = "3", autocomplete = "off", @onkeyup = "SubmitValidCellValue(event)" };
 
         @Html.HiddenFor(m => m.BoardNumber)
         @:<br />
@@ -57,13 +41,40 @@
                     @:&nbsp;
                 }
 
-                @Html.TextBoxFor(m => m.GameBoard[x * boardSize + y], tbConfig)
+                @Html.TextBoxFor(m => m.GameBoard[x * boardSize + y].value, tbConfig)
                 @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Row)
                 @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Column)
                 @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].blockNumber)
+                
             }
             <br />
         }
     }
 </div>
+
+<script>
+    function SubmitValidCellValue(event) {
+        var value = event.currentTarget.value;
+        if ((value == "") || (1 <= value && value <= 9)) {
+            document.updateForm.submit();
+        } else {
+            // If invalid, clear out value on screen
+            event.currentTarget.value = "";
+        }
+    }
+
+    var mSeconds = 0;
+    var watchStoped = true;
+    function startOrStopWatch() {
+        watchStoped = !watchStoped;
+        performClock();
+    }
+
+    function performClock() {
+        if (watchStoped) return;
+        mSeconds++;
+        document.getElementById("label1").innerHTML = "00:00:" + mSeconds;
+        setTimeout("performClock()", 100);
+    }
+</script>
 

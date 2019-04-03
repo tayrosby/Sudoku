@@ -107,6 +107,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="SudokuPuzzles.xml" />
     <Content Include="Web.config" />
     <Content Include="Views\Register\Register.cshtml" />
     <Content Include="Views\Login\LoginPassed.cshtml" />
@@ -127,6 +128,7 @@
     <Compile Include="Models\FullBoard.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Business\PuzzleLoader.cs" />
     <Compile Include="Services\Business\SecurityService.cs" />
     <Compile Include="Services\Business\SudokuService.cs" />
     <Compile Include="Services\Data\UserDAO.cs" />

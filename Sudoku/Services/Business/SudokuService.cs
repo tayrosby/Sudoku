@@ -28,5 +28,46 @@ namespace Sudoku.Services.Business
 
             return board;
         }
+
+        private static bool IsPuzzleValid(List<Cell> cellList)
+        {
+            bool isValid = AreRowsValid(cellList);
+            isValid &= AreColumnsValid(cellList);
+            isValid &= AreBlocksValid(cellList);
+
+            return isValid;
+        }
+
+        private static bool AreRowsValid(List<Cell> cellList)
+        {
+            bool isValid = true;
+
+            cellList.GroupBy(c => c.Row).Select(g => g.ToList()).ToList().ForEach(s => isValid &= IsValueUniqueInSet(s));
+
+            return isValid;
+        }
+
+        private static bool AreColumnsValid(List<Cell> cellList)
+        {
+            bool isValid = true;
+
+            cellList.GroupBy(c => c.Column).Select(g => g.ToList()).ToList().ForEach(s => isValid &= IsValueUniqueInSet(s));
+
+            return isValid;
+        }
+
+        private static bool AreBlocksValid(List<Cell> cellList)
+        {
+            bool isValid = true;
+
+            cellList.GroupBy(c => c.blockNumber).Select(g => g.ToList()).ToList().ForEach(s => isValid &= IsValueUniqueInSet(s));
+
+            return isValid;
+        }
+
+        private static bool IsValueUniqueInSet(List<Cell> cellGroup)
+        {
+            return cellGroup.Where(c => c.value.HasValue).GroupBy(c => c.value.Value).All(g => g.Count() <= 1);
+        }
     }
 }

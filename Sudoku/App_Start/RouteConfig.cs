@@ -28,6 +28,11 @@ namespace Sudoku
                 url: "{Register}",
                 defaults: new { controller = "Register", action = "Index", id = UrlParameter.Optional });
 
+            routes.MapRoute(
+                name: "GameBoard",
+                url: "{GameBoard}",
+                defaults: new { controller = "GameBoard", action = "Index", id = UrlParameter.Optional });
+
 
         }
     }
