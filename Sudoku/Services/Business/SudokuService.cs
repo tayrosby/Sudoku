@@ -6,9 +6,16 @@ using System.Web;
 
 namespace Sudoku.Services.Business
 {
+    public enum PuzzleStatus
+    {
+        Normal,
+        Invalid,
+        Complete
+    }
+
     public class SudokuService
     {
-        static public List<Cell> buildBoard()
+        public List<Cell> buildBoard()
         {
             List<Cell> board = new List<Cell>();
 
@@ -27,6 +34,26 @@ namespace Sudoku.Services.Business
             }
 
             return board;
+        }
+
+        public PuzzleStatus GetPuzzleStatus(List<Cell> cellList)
+        {
+            PuzzleStatus status;
+
+            if (!IsPuzzleValid(cellList))
+            {
+                status = PuzzleStatus.Invalid;
+            }
+            else if (IsPuzzleComplete(cellList))
+            {
+                status = PuzzleStatus.Complete;
+            }
+            else
+            {
+                status = PuzzleStatus.Normal;
+            }
+
+            return status;
         }
 
         private static bool IsPuzzleValid(List<Cell> cellList)
@@ -68,6 +95,11 @@ namespace Sudoku.Services.Business
         private static bool IsValueUniqueInSet(List<Cell> cellGroup)
         {
             return cellGroup.Where(c => c.value.HasValue).GroupBy(c => c.value.Value).All(g => g.Count() <= 1);
+        }
+
+        private static bool IsPuzzleComplete(List<Cell> cellList)
+        {
+            return cellList.All(c => c.value.HasValue);
         }
     }
 }

@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using System.Web;
-using Sudoku.Services.Data;
 
 namespace Sudoku.Services.Business
 {
@@ -38,6 +36,14 @@ namespace Sudoku.Services.Business
         {
             var y = puzzleXElement.Descendants("Cells").Descendants("Cell").ToList();
             y.ForEach(c => cellList[(int)c.Attribute("index")].value = (int?)c.Attribute("value"));
+        }
+
+        public void LoadSavedPuzzle(List<Cell> cellList, out int puzzleNumber)
+        {
+            var xml = XDocument.Load(@"C:\Users\tay\source\repos\Sudoku\Sudoku\SavedPuzzles.xml");
+            XElement x = xml.Descendants("Puzzle").FirstOrDefault();
+            puzzleNumber = (int)x.Element("Number");
+            LoadCellListFromPuzzleXElement(x, cellList);
         }
 
 

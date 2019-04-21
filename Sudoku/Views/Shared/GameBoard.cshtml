@@ -11,57 +11,20 @@
 
 <input type="button" value="Reset Game" />
 
-<input type="button" value="Save Game" />
-
 <input type="button" value="Save Score" />
 
 <input type="button" value="Post Score" />
 
+<input type="button" onclick="location.href='@Url.Action("LoadGame", "GameBoard")'" value="Load Game" />
 
-    @using (Html.BeginForm("GameBoard", "GameBoard", FormMethod.Post, new { name = "updateForm", autocomplete = "off" }))
-    {
-        int boardSize = 9;
-        int blockSize = 3;
-        var tbConfig = new { maxlength = "1", size = "1", autocomplete = "off", @onkeyup = "SubmitValidCellValue(event)" };
+@Html.Partial("_SaveView")
 
-        @Html.HiddenFor(m => m.BoardNumber)
-        @:<br />
+<div>
+    @Html.Partial("_BoardView")
+</div>
 
-
-        for (int x = 0; x < boardSize; x++)
-        {
-            if ((x != 0) && (x % blockSize == 0))
-            {
-                @:<br />
-            }
-
-            for (int y = 0; y < boardSize; y++)
-            {
-                if ((y != 0) && (y % blockSize == 0))
-                {
-                    @:&nbsp;
-                }
-
-                @Html.TextBoxFor(m => m.GameBoard[x * boardSize + y].value, tbConfig)
-                @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Row)
-                @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].Column)
-                @Html.HiddenFor(m => m.GameBoard[x * boardSize + y].blockNumber)
-
-            }
-            <br />
-        }
-    }
 
 <script>
-    function SubmitValidCellValue(event) {
-        var value = event.currentTarget.value;
-        if ((value == "") || (1 <= value && value <= 9)) {
-            document.updateForm.submit();
-        } else {
-            // If invalid, clear out value on screen
-            event.currentTarget.value = "";
-        }
-    }
 
     var mSeconds = 0;
     var watchStoped = true;
@@ -69,7 +32,6 @@
         watchStoped = !watchStoped;
         performClock();
     }
-
     function performClock() {
         if (watchStoped) return;
         mSeconds++;

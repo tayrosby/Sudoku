@@ -1,0 +1,18 @@
+﻿@model Sudoku.Models.FullBoard
+
+<div>
+
+    @using (Html.BeginForm("SaveGame", "GameBoard", FormMethod.Post, new { name = "saveForm", autocomplete = "off" }))
+    {
+        for (int i = 0; i < Model.GameBoard.Count; i++)
+        {
+            @Html.HiddenFor(m => m.GameBoard[i].value)
+            @Html.HiddenFor(m => m.GameBoard[i].Row)
+            @Html.HiddenFor(m => m.GameBoard[i].Column)
+            @Html.HiddenFor(m => m.GameBoard[i].blockNumber)
+        }
+        @Html.HiddenFor(m => m.BoardNumber)
+
+        <button type="button" class="bigbutton" name="action" onclick="document.saveForm.submit()">Save Game</button><br />
+    }
+</div>
